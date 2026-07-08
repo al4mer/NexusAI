@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI - Discord AI Bot</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>🤖 NexusAI</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="scrollTo('hero')">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#support">Support</a></li>
+                <li id="auth-btn" style="display:none;"><a href="dashboard.html" class="btn-dashboard">Dashboard</a></li>
+                <li id="login-btn"><a href="#" class="btn-login" onclick="loginWithDiscord()">Login with Discord</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Der moderne Discord AI-Begleiter</h2>
+            <p>NexusAI ist ein intelligenter, kontextbasierter AI-Chatbot für Discord. Er versteht Gespräche, reagiert menschlich und passt sich deinem Server an — ohne komplizierte Einstellungen.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="inviteBot()">👉 INVITE NEXUS AI!</button>
+                <button class="btn btn-secondary" onclick="loginWithDiscord()">Login with Discord</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card">⚡ Live Synchronisiert</div>
+            <div class="floating-card">🧠 Kontextbasiert</div>
+            <div class="floating-card">💎 Modernes Design</div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2>✨ Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🤖 KI-Chatbot</h3>
+                <p>Intelligente, kontextbasierte Antworten mit Groq API</p>
+            </div>
+            <div class="feature-card">
+                <h3>💻 Web-Dashboard</h3>
+                <p>Live synchronisiertes Control Center auf GitHub Pages</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Schnell & Zuverlässig</h3>
+                <p>Cloudflare Worker Backend für maximale Performance</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌍 Multi-Language</h3>
+                <p>Unterstützung für 10+ Sprachen</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎮 Slash-Commands</h3>
+                <p>/ask, /script, /set_language, /set_personality und mehr</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔐 Sicher</h3>
+                <p>Discord OAuth2 & sichere API-Kommunikation</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>NexusAI – Made by Alamer | Schnell. Modern. Live synchronisiert.</p>
+        <div class="footer-links">
+            <a href="#">GitHub</a>
+            <a href="#">Discord</a>
+            <a href="#">Support</a>
+        </div>
+    </footer>
+
+    <script src="./js/auth.js"></script>
+</body>
+</html>
