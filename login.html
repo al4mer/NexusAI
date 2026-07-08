@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI – Login</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>🤖 NexusAI</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#support">Support</a></li>
+                <li id="auth-btn" style="display:none;"><a href="dashboard.html" class="btn-dashboard">Dashboard</a></li>
+                <li id="login-btn"><a href="#" class="btn-login" onclick="loginWithDiscord()">Login with Discord</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Login mit Discord</h2>
+            <p>Melde dich an, um dein NexusAI Dashboard zu öffnen.</p>
+
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="loginWithDiscord()">🔐 Login mit Discord</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="./js/auth.js"></script>
+
+    <script>
+        // Falls der User bereits eingeloggt ist → direkt Dashboard
+        if (isLoggedIn()) {
+            window.location.href = "./dashboard.html";
+        }
+    </script>
+</body>
+</html>
