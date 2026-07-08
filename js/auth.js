@@ -16,19 +16,15 @@ async function handleOAuthCallback() {
     const error = url.searchParams.get('error');
 
     if (error) {
-        console.error('OAuth error:', error);
         alert('❌ Login fehlgeschlagen!');
         window.location.href = './index.html';
         return;
     }
 
-    if (!code) {
-        return; // Kein Code → User hat Login noch nicht gestartet
-    }
+    if (!code) return;
 
     try {
-        // Exchange code for access token via your backend
-        const response = await fetch('https://nexusai.alamer.workers.dev/api/auth/discord/callback', {
+        const response = await fetch('https://nexusai.alamer.workers.dev/auth/callback', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -41,18 +37,14 @@ async function handleOAuthCallback() {
         const data = await response.json();
 
         if (data.access_token) {
-            // Store token in localStorage
             localStorage.setItem('discordToken', data.access_token);
             localStorage.setItem('discordUser', JSON.stringify(data.user));
-
-            // Redirect to dashboard
             window.location.href = './dashboard.html';
         } else {
             alert('❌ Token-Austausch fehlgeschlagen!');
             window.location.href = './index.html';
         }
     } catch (error) {
-        console.error('Auth error:', error);
         alert('❌ Authentifizierungsfehler!');
         window.location.href = './index.html';
     }
@@ -90,17 +82,16 @@ function updateAuthButton() {
     }
 }
 
-// Invite bot to Discord server
+// Invite bot
 function inviteBot() {
     const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&permissions=8&integration_type=0&scope=bot+applications.commands`;
     window.open(inviteUrl, '_blank');
 }
 
-// Initialize on page load
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     updateAuthButton();
 
-    // Handle OAuth callback if on login page
     if (window.location.pathname.includes('login.html')) {
         handleOAuthCallback();
     }
