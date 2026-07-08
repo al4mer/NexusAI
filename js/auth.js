@@ -1,5 +1,5 @@
 // Discord OAuth2 Configuration
-const DISCORD_CLIENT_ID = "YOUR_CLIENT_ID_HERE";
+const DISCORD_CLIENT_ID = "1521537524462391447";
 const REDIRECT_URI = "https://al4mer.github.io/NexusAI/login.html";
 const SCOPES = "identify guilds";
 
@@ -93,7 +93,7 @@ function updateAuthButton() {
 
 // Invite bot to Discord server
 function inviteBot() {
-    const inviteUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&scope=bot&permissions=8`;
+    const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&permissions=8&integration_type=0&scope=bot+applications.commands`;
     window.open(inviteUrl, '_blank');
 }
 
