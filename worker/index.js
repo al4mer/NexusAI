@@ -10,6 +10,9 @@ const CORS_HEADERS = {
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
+// Discord OAuth2 config
+const DISCORD_CLIENT_ID = "1521537524462391447";
+
 // Main request handler
 export default {
     async fetch(request, env) {
@@ -22,8 +25,12 @@ export default {
         const path = url.pathname;
 
         try {
+            // OAuth callback route
+            if (path === '/auth/callback') {
+                return await handleOAuthCallback(request, env);
+            }
             // Route requests
-            if (path.startsWith('/api/user')) {
+            else if (path.startsWith('/api/user')) {
                 return await handleUserAPI(request, env);
             } else if (path.startsWith('/api/guilds')) {
                 return await handleGuildAPI(request, env, path);
@@ -42,6 +49,82 @@ export default {
         }
     }
 };
+
+// Handle OAuth callback
+async function handleOAuthCallback(request, env) {
+    if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+            status: 405,
+            headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' }
+        });
+    }
+
+    try {
+        const data = await request.json();
+        const { code, redirect_uri, client_id } = data;
+
+        if (!code || !redirect_uri || !client_id) {
+            return new Response(JSON.stringify({ error: 'Missing parameters' }), {
+                status: 400,
+                headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' }
+            });
+        }
+
+        // Exchange code for access token
+        const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                client_id: client_id,
+                client_secret: env.DISCORD_CLIENT_SECRET,
+                code: code,
+                grant_type: 'authorization_code',
+                redirect_uri: redirect_uri
+            })
+        });
+
+        if (!tokenResponse.ok) {
+            const errorData = await tokenResponse.json();
+            console.error('Discord token error:', errorData);
+            return new Response(JSON.stringify({ error: 'Failed to exchange code for token' }), {
+                status: 400,
+                headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' }
+            });
+        }
+
+        const tokenData = await tokenResponse.json();
+        const accessToken = tokenData.access_token;
+
+        // Get user info
+        const userResponse = await fetch('https://discord.com/api/users/@me', {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        });
+
+        if (!userResponse.ok) {
+            return new Response(JSON.stringify({ error: 'Failed to get user info' }), {
+                status: 400,
+                headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' }
+            });
+        }
+
+        const user = await userResponse.json();
+
+        return new Response(JSON.stringify({
+            access_token: accessToken,
+            user: user
+        }), {
+            status: 200,
+            headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' }
+        });
+
+    } catch (error) {
+        console.error('OAuth error:', error);
+        return new Response(JSON.stringify({ error: error.message }), {
+            status: 500,
+            headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' }
+        });
+    }
+}
 
 // Handle user API
 async function handleUserAPI(request, env) {
