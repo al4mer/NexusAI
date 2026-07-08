@@ -1,7 +1,6 @@
 // Discord OAuth2 Configuration
 const DISCORD_CLIENT_ID = "1521537524462391447";
-const REDIRECT_URI = "https://al4mer.github.io/NexusAI/index.html"; 
-// WICHTIG: Discord leitet dich zu index.html → also muss das hier stehen
+const REDIRECT_URI = "https://al4mer.github.io/NexusAI/login.html"; 
 const SCOPES = "identify guilds";
 
 // Login with Discord
@@ -14,12 +13,12 @@ function loginWithDiscord() {
     window.location.href = authUrl;
 }
 
-// Handle OAuth callback (wird auf index.html ausgeführt)
+// Handle OAuth callback
 async function handleOAuthCallback() {
     const url = new URL(window.location.href);
     const code = url.searchParams.get("code");
 
-    if (!code) return; // Kein Code → kein Login
+    if (!code) return;
 
     try {
         const response = await fetch("https://nexusai.alamer.workers.dev/auth/callback", {
@@ -35,11 +34,8 @@ async function handleOAuthCallback() {
         const data = await response.json();
 
         if (data.access_token) {
-            // Token speichern
             localStorage.setItem("discordToken", data.access_token);
             localStorage.setItem("discordUser", JSON.stringify(data.user));
-
-            // Weiter zum Dashboard
             window.location.href = "./dashboard.html";
         } else {
             alert("❌ Token-Austausch fehlgeschlagen!");
@@ -84,7 +80,5 @@ function updateAuthButton() {
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
     updateAuthButton();
-
-    // WICHTIG: Code wird auf index.html abgefangen
     handleOAuthCallback();
 });
