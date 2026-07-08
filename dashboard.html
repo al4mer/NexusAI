@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">🤖 NexusAI Dashboard</div>
+            <div class="user-menu">
+                <span id="username">Laden...</span>
+                <button onclick="logout()" class="btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="server-list" id="serverList">
+                <div class="loading">Server werden geladen...</div>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="content">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('overview')">Übersicht</button>
+                <button class="tab-btn" onclick="switchTab('settings')">Einstellungen</button>
+                <button class="tab-btn" onclick="switchTab('personality')">Persönlichkeit</button>
+                <button class="tab-btn" onclick="switchTab('keys')">Groq Keys</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>📊 Übersicht</h2>
+                <div class="overview-grid">
+                    <div class="stat-card">
+                        <h3>Status</h3>
+                        <p id="botStatus">🟢 Online</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Server</h3>
+                        <p id="serverCount">Laden...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Sprache</h3>
+                        <p id="currentLanguage">Deutsch</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>AI-Modell</h3>
+                        <p>Groq Mixtral</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <h2>⚙️ Einstellungen</h2>
+                
+                <div class="setting-group">
+                    <h3>🌍 Sprache</h3>
+                    <select id="languageSelect" onchange="saveLanguage()" class="input-field">
+                        <option value="de">Deutsch</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="it">Italiano</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <h3>📢 AI-Channel</h3>
+                    <select id="channelSelect" onchange="saveChannel()" class="input-field">
+                        <option value="">Wähle einen Kanal...</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <h3>✅ Auto-Reply aktivieren</h3>
+                    <div class="toggle">
+                        <input type="checkbox" id="autoReplyToggle" onchange="saveAutoReply()">
+                        <label for="autoReplyToggle"></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personality Tab -->
+            <div id="personality" class="tab-content">
+                <h2>🎭 AI-Persönlichkeit</h2>
+                <textarea id="personalityEditor" class="textarea-field" placeholder="Beschreibe die Persönlichkeit des Bots..."></textarea>
+                <button onclick="savePersonality()" class="btn btn-primary">💾 Speichern</button>
+            </div>
+
+            <!-- Keys Tab -->
+            <div id="keys" class="tab-content">
+                <h2>🔑 Groq API Keys</h2>
+                <div class="keys-list" id="keysList">
+                    <div class="loading">Keys werden geladen...</div>
+                </div>
+                <input type="password" id="newKeyInput" placeholder="Neuer API Key..." class="input-field">
+                <button onclick="addKey()" class="btn btn-primary">➕ Key hinzufügen</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>
