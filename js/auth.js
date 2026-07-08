@@ -23,13 +23,12 @@ async function handleOAuthCallback() {
     }
 
     if (!code) {
-        window.location.href = './index.html';
-        return;
+        return; // Kein Code → User hat Login noch nicht gestartet
     }
 
     try {
         // Exchange code for access token via your backend
-        const response = await fetch('https://nexusai.alamer.workers.dev/api/auth/callback', {
+        const response = await fetch('https://nexusai.alamer.workers.dev/api/auth/discord/callback', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -45,7 +44,7 @@ async function handleOAuthCallback() {
             // Store token in localStorage
             localStorage.setItem('discordToken', data.access_token);
             localStorage.setItem('discordUser', JSON.stringify(data.user));
-            
+
             // Redirect to dashboard
             window.location.href = './dashboard.html';
         } else {
@@ -93,14 +92,14 @@ function updateAuthButton() {
 
 // Invite bot to Discord server
 function inviteBot() {
-    const inviteUrl = `https://discord.com/oauth2/authorize?client_id=1521537524462391447&permissions=8&integration_type=0&scope=bot+applications.commands`;
+    const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&permissions=8&integration_type=0&scope=bot+applications.commands`;
     window.open(inviteUrl, '_blank');
 }
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     updateAuthButton();
-    
+
     // Handle OAuth callback if on login page
     if (window.location.pathname.includes('login.html')) {
         handleOAuthCallback();
