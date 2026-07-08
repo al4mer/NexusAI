@@ -93,7 +93,7 @@ function updateAuthButton() {
 
 // Invite bot to Discord server
 function inviteBot() {
-    const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&permissions=8&integration_type=0&scope=bot+applications.commands`;
+    const inviteUrl = `https://discord.com/oauth2/authorize?client_id=1521537524462391447&permissions=8&integration_type=0&scope=bot+applications.commands`;
     window.open(inviteUrl, '_blank');
 }
 
